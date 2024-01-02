@@ -1,0 +1,14 @@
+MENU_CONTENT = """WELCOME TO THE GAME OF WONDERS!\n"""
+START_GAME = """ \n                  ***** GAME STARTED ***** """
+FIRST_PLAYER = " Please select the first player name :\n "
+SECOND_PLAYER = " Please select the second player name :\n"
+TIE = "IT'S A TIE!"
+PLAYER_CARDS = "\nPLAYERS CARDS"
+CARDS_GAME = "ALL CARDS IN THE GAME:"
+SAME_CARD_NUMBER = "BOTH PLAYERS MUST HAVE THE SAME NUMBER OF CARDS."
+NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Prince", "Queen", "King", "Ace"]
+SHAPES = ["♣", "♥", "♦", "♠"]
+MIN = 1000
+FIRST_MIDDLE = 2000
+SECOND_MIDDLE = 3000
+MAX = 4000
