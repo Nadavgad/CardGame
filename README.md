@@ -1,57 +1,63 @@
-# Card Game System
+# Card Game README
 
-## Overview
-
-The Card Game System manages a simple card game between two players. Players are assigned cards, and the winner of each round is determined based on the values of the cards played.
-The game concludes with the announcement of the overall winner.
+The game involves players and cards, and the goal is to determine the winner based on the values of the cards played in each round.
 
 ## Classes
 
-### 1. `Card`
+### 1. Player
 
-- Represents a playing card.
-- Attributes:
-  - `number`: The number or face of the card (2-10, prince, queen, king, ace).
-  - `shape`: The suit of the card (Clover, Heart, Diamond, Leaf).
-- Methods:
-  - `calculate`: Calculates the value of the card based on its number and shape.
-  - `__str__`: Returns a string representation of the card.
-
-### 2. `Player`
-
-- Represents a player in the card game.
-- Attributes:
+- **Attributes:**
   - `name`: The name of the player.
-  - `round_counter`: The number of rounds won by the player.
-  - `cards`: An array containing the player's cards.
-- Methods:
-  - `add_card(card)`: Adds a card to the player's cards.
+  - `win_round_counter`: Counter for the number of rounds won by the player.
+  - `cards`: An array containing the player's cards after the initial card distribution.
 
-### 3. `System`
+- **Methods:**
+  - `add_card(card)`: Adds a card to the player's cards array.
 
-- Manages the card game.
-- Attributes:
-  - `cards_array`: An array containing all the cards in the game.
-  - `player1` and `player2`: Instances of the `Player` class.
-- Methods:
-  - `__init__()`: Initializes the card game system.
-  - `start()`: Initiates the game, prompts users for player names, distributes cards, prints players' cards, and determines the winner.
-  - `__print_cards(player)`: Prints the cards of a given player.
-  - `generate_cards()`: Generates a list of cards with numbers and shapes.
-  - `distribute_cards()`: Distributes cards to player1 and player2, shuffling the deck.
-  - `display_cards()`: Displays all cards in the system.
-  - `find_winner()`: Determines the winner of the game based on the values of the played cards.
+### 2. Card
 
-## Usage
+- **Attributes:**
+  - `number`: The number or type of the card (e.g., 2, Ace, Prince).
+  - `shape`: The shape of the card (e.g., Heart, Clover).
 
-1. Create an instance of the `System` class.
-2. Call the `start()` method to initiate the game.
-3. Follow the prompts to enter player names.
-4. Observe the game as it progresses and find out the winner.
+- **Methods:**
+  - `calculate(card)`: Calculates the value of the card based on specific rules.
+  - `__str__()` : Returns a string representation of the card.
 
-## Example
+### 3. Game
+
+- **Attributes:**
+  - `deck_array`: The deck of cards created at the beginning of the game.
+  - `player1`: An instance of the `Player` class representing the first player.
+  - `player2`: An instance of the `Player` class representing the second player.
+
+- **Methods:**
+  - `generate_cards()`: Generates a new deck of cards.
+  - `get_player_names()`: Takes input for player names.
+  - `distribute_cards()`: Distributes the cards to the players.
+  - `Validate_same_number_cards()`: Validates that both players have the same number of cards.
+  - `game_rounds(card1, card2, game_round)`: Conducts a round of the game, determining the winner.
+  - `find_round_winner()`: Finds the winner of each round.
+  - `__print_cards(player)`: Prints the cards of a specific player.
+  - `print_players_cards()`: Prints the cards of both players.
+  - `print_winner(winner)`: Prints the winner of the game.
+  - `find_game_winner()`: Determines the overall winner of the game.
+  - `start()`: Starts the game, executing various steps to determine the winner.
+
+### Constants
 
 ```python
-if __name__ == '__main__':
-    system = System()
-    system.start()
+MENU_CONTENT = """WELCOME TO THE GAME OF WONDERS!\n"""
+START_GAME = """ \n                  ***** GAME STARTED ***** """
+FIRST_PLAYER = " Please select the first player name :\n "
+SECOND_PLAYER = " Please select the second player name :\n"
+TIE = "IT'S A TIE!"
+PLAYER_CARDS = "\nPLAYERS CARDS"
+CARDS_GAME = "ALL CARDS IN THE GAME:"
+SAME_CARD_NUMBER = "BOTH PLAYERS MUST HAVE THE SAME NUMBER OF CARDS."
+NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Prince", "Queen", "King", "Ace"]
+SHAPES = ["♣", "♥", "♦", "♠"]
+MIN = 1000
+FIRST_MIDDLE = 2000
+SECOND_MIDDLE = 3000
+MAX = 4000
