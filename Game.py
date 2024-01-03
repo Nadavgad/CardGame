@@ -3,10 +3,13 @@ import random
 
 from CardGame.Player import Player
 from CardGame.constants import MENU_CONTENT, START_GAME, FIRST_PLAYER, SECOND_PLAYER, TIE, PLAYER_CARDS, \
-    SAME_CARD_NUMBER, SHAPES, NUMBERS
+    SAME_CARD_NUMBER, SHAPES, NUMBERS, MIN, FIRST_MIDDLE, SECOND_MIDDLE, MAX, ROUND_RESULT_MESSAGE, WIN_ROUND_MESSAGE, \
+    PLAYER_CARDS_HEADER_MESSAGE, WINNER_MESSAGE
 
 
 class Game:
+    shape_dict_number = {"♥": 1, "♠": 2, "♦": 3, "♣": 4}
+    shape_dict_royal_card = {"Prince": MIN, "Queen": FIRST_MIDDLE, "King": SECOND_MIDDLE, "Ace": MAX}
 
     def __init__(self):
         self.deck_array = self.generate_cards()
@@ -22,6 +25,18 @@ class Game:
         cards = [Card(number, shape) for number in NUMBERS for shape in SHAPES]
 
         return cards
+
+    def start(self):
+        """
+        :return: The game winner with his card counter
+        """
+        print(MENU_CONTENT)
+        self.get_player_names()
+        self.distribute_cards()
+        self.Validate_same_number_cards()
+        self.print_players_cards()
+        self.find_round_winner()
+        self.find_game_winner()
 
     def get_player_names(self):
         """
@@ -52,6 +67,24 @@ class Game:
         if len(self.player1.cards) != len(self.player2.cards):
             raise ValueError(SAME_CARD_NUMBER)
 
+    def print_players_cards(self):
+        """
+        :return: Print player cards.
+        """
+        print(PLAYER_CARDS)
+        self.__print_cards(self.player1)
+        self.__print_cards(self.player2)
+
+    @staticmethod
+    def __print_cards(player):
+        """
+        :param player:  get player.
+        :return: print each card from player cards
+        """
+        print(PLAYER_CARDS_HEADER_MESSAGE.format(player_name=player.name))
+        for card in player.cards:
+            print(card)
+
     def game_rounds(self, card1, card2, game_round):
         """
         :param game_round: The game round, there is 24 rounds.
@@ -60,25 +93,61 @@ class Game:
         :return: The round winner.
         """
 
-        value1 = card1.calculate(card2)
-        value2 = card2.calculate(card1)
+        value1 = self.calculate(card2, card1)
+        value2 = self.calculate(card1, card2)
 
-        print(f"\nGAME ROUND {game_round} : {self.player1.name} has played {card1.number} of {card1.shape}, its "
-              f"value is {value1}\n"
-              f"{self.player2.name} has played {card2.number} of {card2.shape}, its value is {value2}")
+        print(ROUND_RESULT_MESSAGE.format(
+            game_round=game_round,
+            player1_name=self.player1.name,
+            card1_number=card1.number,
+            card1_shape=card1.shape,
+            value1=value1,
+            player2_name=self.player2.name,
+            card2_number=card2.number,
+            card2_shape=card2.shape,
+            value2=value2
+        ))
 
         if value1 > value2:
-
             self.player1.win_round_counter += 1
-            print(f"{self.player1.name}'s WIN ROUND {game_round}.\n")
-
+            print(WIN_ROUND_MESSAGE.format(player_name=self.player1.name, game_round=game_round))
         elif value1 < value2:
-
             self.player2.win_round_counter += 1
-            print(f"{self.player2.name}'s WIN ROUND {game_round}.\n")
-
+            print(WIN_ROUND_MESSAGE.format(player_name=self.player2.name, game_round=game_round))
         else:
             print(TIE)
+
+    def calculate(self, rival_card, current_card):
+
+        """
+        :param current_card: the card current player have.
+        :param rival_card: argument is the card of the rival, we use it to calculate the cards value
+        :return:
+        if player1 have card with number and player2 have card with number the value
+        of the card depend on the card shape :
+        Heart - card number multiply by 1.
+        Clover - card number multiply by 2.
+        Diamond - card number multiply by 3.
+        Leaf - card number is multiplied by 4.
+        if player1 have royal card and player2 have number card royal card win.
+        if player1 have royal card and player2 have royal card King > Queen > Prince
+        if player1 number is "Ace" and player2 number is royal card : Ace > King > Queen > Prince
+        if player1 number is "Ace" and player2 number is 2-9: return the value of the shape of "Ace"
+        """
+
+        # One of the players got Ace
+        if current_card.number == "Ace" and rival_card.number in self.shape_dict_royal_card:
+            return self.shape_dict_royal_card["Ace"]
+        elif current_card.number == "Ace":
+            return self.shape_dict_number[current_card.shape]
+
+        # Both players did to get "Ace" and have integer card
+        if isinstance(current_card.number, int):
+            return self.shape_dict_number[current_card.shape] * current_card.number
+
+        # One player have royal card
+        else:
+            return self.shape_dict_royal_card[current_card.number]
 
     def find_round_winner(self):
         """
@@ -90,39 +159,11 @@ class Game:
             self.game_rounds(card1, card2, game_round)
             game_round += 1
 
-    @staticmethod
-    def __print_cards(player):
-        """
-        :param player:  get player.
-        :return: print each card from player cards
-        """
-        print(f"\n{player.name}'s cards : \n")
-        for card in player.cards:
-            print(card)
-
-    def print_players_cards(self):
-        """
-        :return: Print player cards.
-        """
-        print(PLAYER_CARDS)
-        self.__print_cards(self.player1)
-        self.__print_cards(self.player2)
-
-    def print_winner(self, winner):
-        """
-        :return: print the game winner.
-        """
-        if winner:
-            print(
-                f"\n **********   THE WINNER IS {winner.name} WHO WON IN {winner.win_round_counter} ROUNDS   ********** "
-                f"\n \n \n")
-        else:
-            print(TIE)
-
     def find_game_winner(self):
         """
         :return: who won the most rounds and return him.
         """
+        winner = None
 
         if self.player1.win_round_counter > self.player2.win_round_counter:
             winner = self.player1
@@ -131,17 +172,14 @@ class Game:
 
         self.print_winner(winner)
 
-    def start(self):
+    def print_winner(self, winner):
         """
-        :return: The game winner with his card counter
+        :return: print the game winner.
         """
-        print(MENU_CONTENT)
-        self.get_player_names()
-        self.distribute_cards()
-        self.Validate_same_number_cards()
-        self.print_players_cards()
-        self.find_round_winner()
-        self.find_game_winner()
+        if winner:
+            print(WINNER_MESSAGE.format(winner_name=winner.name, round_counter=winner.win_round_counter))
+        else:
+            print(TIE)
 
 
 if __name__ == '__main__':
