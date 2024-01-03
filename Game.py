@@ -121,7 +121,7 @@ class Game:
 
         """
         :param current_card: The card current player have.
-        :param rival_card: The rival card have, we use it to calculate the cards value
+        :param rival_card: The card the opponent has in the game, we use it to calculate the cards value
         :return:
         if player1 have card with number and player2 have card with number the value
         of the card depend on the card shape :
