@@ -1,63 +1,26 @@
-# Card Game README
+# Card Game
 
-The game involves players and cards, and the goal is to determine the winner based on the values of the cards played in each round.
+Welcome to the Game of Wonders - a simple card game implemented in Python!
 
-## Classes
+## Introduction
 
-### 1. Player
+This Python project implements a card game with the following classes:
 
-- **Attributes:**
-  - `name`: The name of the player.
-  - `win_round_counter`: Counter for the number of rounds won by the player.
-  - `cards`: An array containing the player's cards after the initial card distribution.
+### Card
 
-- **Methods:**
-  - `add_card(card)`: Adds a card to the player's cards array.
+Represents an individual playing card with a number and a shape.
 
-### 2. Card
+### Player
 
-- **Attributes:**
-  - `number`: The number or type of the card (e.g., 2, Ace, Prince).
-  - `shape`: The shape of the card (e.g., Heart, Clover).
+Represents a player in the card game, with attributes for name, rounds won, and an array to store their cards.
 
-- **Methods:**
-  - `calculate(card)`: Calculates the value of the card based on specific rules.
-  - `__str__()` : Returns a string representation of the card.
+### Game
 
-### 3. Game
+Handles the overall game logic, including deck generation, card distribution, round calculations, and determining the game winner.
 
-- **Attributes:**
-  - `deck_array`: The deck of cards created at the beginning of the game.
-  - `player1`: An instance of the `Player` class representing the first player.
-  - `player2`: An instance of the `Player` class representing the second player.
+## How to Play
 
-- **Methods:**
-  - `generate_cards()`: Generates a new deck of cards.
-  - `get_player_names()`: Takes input for player names.
-  - `distribute_cards()`: Distributes the cards to the players.
-  - `Validate_same_number_cards()`: Validates that both players have the same number of cards.
-  - `game_rounds(card1, card2, game_round)`: Conducts a round of the game, determining the winner.
-  - `find_round_winner()`: Finds the winner of each round.
-  - `__print_cards(player)`: Prints the cards of a specific player.
-  - `print_players_cards()`: Prints the cards of both players.
-  - `print_winner(winner)`: Prints the winner of the game.
-  - `find_game_winner()`: Determines the overall winner of the game.
-  - `start()`: Starts the game, executing various steps to determine the winner.
-
-### Constants
-
-```python
-MENU_CONTENT = """WELCOME TO THE GAME OF WONDERS!\n"""
-START_GAME = """ \n                  ***** GAME STARTED ***** """
-FIRST_PLAYER = " Please select the first player name :\n "
-SECOND_PLAYER = " Please select the second player name :\n"
-TIE = "IT'S A TIE!"
-PLAYER_CARDS = "\nPLAYERS CARDS"
-CARDS_GAME = "ALL CARDS IN THE GAME:"
-SAME_CARD_NUMBER = "BOTH PLAYERS MUST HAVE THE SAME NUMBER OF CARDS."
-NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Prince", "Queen", "King", "Ace"]
-SHAPES = ["♣", "♥", "♦", "♠"]
-MIN = 1000
-FIRST_MIDDLE = 2000
-SECOND_MIDDLE = 3000
-MAX = 4000
+1. Players are prompted to enter their names.
+2. The deck is shuffled and cards are distributed to each player.
+3. Each round is played, and the winner of each round is determined based on card values.
+4. The game winner is determined by the player who wins the most rounds.
